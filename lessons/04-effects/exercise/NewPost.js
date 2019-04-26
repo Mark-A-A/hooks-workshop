@@ -11,12 +11,51 @@ const MAX_MESSAGE_LENGTH = 200
 
 export default function NewPost({ takeFocus, date, onSuccess, showAvatar }) {
   const [{ auth }] = useAppState()
-  const [message, setMessage] = useState('Ran around the lake.')
+  
+  const newPostKey = makeNewPostKey(date)
+  
+  const [message, setMessage] = useState("Ran around the lake.")
+  // const [message, setMessage] = useState(getLocalStorageValue(newPostKey) || "")
   const messageTooLong = message.length > MAX_MESSAGE_LENGTH
+  
+  const messageRef = useRef();
 
   function handleMessageChange(event) {
     setMessage(event.target.value)
+    //save to localStorage
+    //// NOOOOOO SILLY
   }
+
+  // remaking of component did mount
+  const initialRender = useRef(true)
+  useEffect(()=>{
+    initialRender.current = false
+  }, [])
+
+  // Get Message on Load
+  useEffect(()=>{
+    const latestStoredMessage = getLocalStorageValue(newPostKey)
+    console.log('========latestStoredMessage============================');
+    console.log(latestStoredMessage);
+    console.log('====================================');
+    // if(latestStoredMessage) {
+      setMessage(latestStoredMessage)
+    // }
+  }, [])
+
+  // Set Message to Local Storage
+  useEffect(() => {
+    console.log('===========newPostKey=========================');
+    console.log(newPostKey);
+    console.log('====================================');
+
+    setLocalStorage(newPostKey, message)
+  }, [message])
+
+
+  useEffect(()=>{
+    if(takeFocus) messageRef.current.focus()
+  },[takeFocus])
 
   return (
     <div className={'NewPost' + (messageTooLong ? ' NewPost_error' : '')}>
@@ -27,6 +66,7 @@ export default function NewPost({ takeFocus, date, onSuccess, showAvatar }) {
           placeholder="Tell us about your workout!"
           value={message}
           onChange={handleMessageChange}
+          ref={messageRef}
         />
         <div className="NewPost_char_count">
           {message.length}/{MAX_MESSAGE_LENGTH}

@@ -20,8 +20,34 @@ import ProgressCircle from 'app/ProgressCircle'
 // so we can calculate the rings on their avatar, right now, it's just empty.
 
 export default function Avatar({ uid, size = 50, bg, className, ...rest }) {
-  const user = null
-  const posts = null
+  // const user = null
+  // const posts = null
+  const [user, setUser] = useState(null)
+  const [posts, setPosts] = useState(null)
+
+  //Async
+  useEffect(() => {
+    (async()=>{
+
+      //fetch here
+      const user = await fetchUser(uid)
+      if ( isCurrent) setUser(user)
+    })()
+
+    //cleanup
+    return () => {
+      isCurrent = false
+    };
+  }, [input])
+
+  useEffect(()=>{
+    const cancel = subscribeToPosts(uid, posts =>{
+      setPosts(posts)
+    })
+
+    //cleanup
+    return cance
+  })
 
   if (!user) {
     return (

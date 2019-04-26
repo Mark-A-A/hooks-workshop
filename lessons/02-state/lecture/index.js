@@ -1,19 +1,31 @@
 import "app/index.css"
 import "app/App.css"
 import "./styles.css"
-import React from "react"
+import React, {useState} from "react"
 import ReactDOM from "react-dom"
 // import { FaMinus, FaPlus } from "react-icons/fa"
 import App from "app/App"
+import { setMinutes } from "date-fns";
 
 ReactDOM.render(<App />, document.getElementById("root"))
 
 /******************************************************************************/
 // Let's make our own hooks :O
 
-// function Minutes() {
-//   const [minutes, setMinutes] = useState(5)
-//   const [error, setError] = useState(null)
+function Minutes() {
+
+// useState 
+
+// arr[0] = value 
+// arr[1] = function to update it
+
+
+// const add = ()=>{
+//   setMinutes(minutes+1)
+// }
+
+    const [minutes, setMinutes] = useState(5)
+    const [error, setError] = useState(null)
 
 //   const handleAdd = () => {
 //     if (minutes < 9) {
@@ -33,46 +45,46 @@ ReactDOM.render(<App />, document.getElementById("root"))
 //     }
 //   }
 
-//   return (
-//     <div>
-//       <div className="Minutes">
-//         <div>
-//           <button
-//             onClick={handleSubtract}
-//             type="button"
-//             className="icon_button Minutes_button"
-//           >
-//             <FaMinus />
-//           </button>
-//         </div>
-//         <div className="Minutes_label" htmlFor="minutes">
-//           {minutes} Minutes
-//         </div>
-//         <div>
-//           <button
-//             onClick={handleAdd}
-//             type="button"
-//             className="icon_button Minutes_button"
-//           >
-//             <FaPlus />
-//           </button>
-//         </div>
-//       </div>
-//       <div style={{ textAlign: "center" }}>
-//         {error && (
-//           <p>
-//             {error}{" "}
-//             <span role="img" aria-label="eep!">
-//               😬
-//             </span>
-//             <br />
-//             <button onClick={() => setError(null)}>dismiss</button>
-//           </p>
-//         )}
-//       </div>
-//     </div>
-//   )
-// }
+  return (
+    <div>
+      <div className="Minutes">
+        <div>
+          <button
+            onClick={handleSubtract}
+            type="button"
+            className="icon_button Minutes_button"
+          >
+            <FaMinus />
+          </button>
+        </div>
+        <div className="Minutes_label" htmlFor="minutes">
+          {minutes} Minutes
+        </div>
+        <div>
+          <button
+            onClick={handleAdd}
+            type="button"
+            className="icon_button Minutes_button"
+          >
+            <FaPlus />
+          </button>
+        </div>
+      </div>
+      <div style={{ textAlign: "center" }}>
+        {error && (
+          <p>
+            {error}{" "}
+            <span role="img" aria-label="eep!">
+              😬
+            </span>
+            <br />
+            <button onClick={() => setError(null)}>dismiss</button>
+          </p>
+        )}
+      </div>
+    </div>
+  )
+}
 
 // const states = []
 // let calls = -1

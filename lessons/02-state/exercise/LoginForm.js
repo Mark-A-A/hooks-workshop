@@ -8,8 +8,30 @@ import { login } from "app/utils"
 // export default LoginFormFinal
 
 export default function LoginForm() {
+  const [showPassword, togglePassword] = useState(false)
+  const [loading, toggleLoading] = useState(false)
+  const [error, toggleError] = useState(false)
+  
+  const handlePasswordCheckBox = () => togglePassword(!showPassword)
+  
+  const handleLoginSubmit = (e) => {
+    e.preventDefault();
+    console.log("events")
+    console.dir(e.target)
+    const [email, password]= e.target.elements
+    console.log(login)
+    toggleLoading(true)
+    login(email.value, password.value)
+      .then(()=>{
+        toggleLoading(false)
+      })
+      .catch((error)=>{
+        console.error(error)
+      })
+  }
+
   return (
-    <form>
+    <form onSubmit={handleLoginSubmit}>
       <VisuallyHidden>
         <label htmlFor="login:email">Email:</label>
       </VisuallyHidden>
@@ -25,7 +47,7 @@ export default function LoginForm() {
       </VisuallyHidden>
       <input
         id="login:password"
-        type="password"
+        type={showPassword ? "text" : "password"}
         className="inputField"
         placeholder="Password"
       />
@@ -35,15 +57,16 @@ export default function LoginForm() {
           <input
             className="passwordCheckbox"
             type="checkbox"
-            defaultChecked={false}
+            defaultChecked={showPassword}
+            onClick={handlePasswordCheckBox}
           />{" "}
           show password
         </label>
       </div>
 
-      <TabsButton>
+      <TabsButton >
         <FaSignInAlt />
-        <span>Login</span>
+        <span>{loading ? "Loading..." : "Login"}</span>
       </TabsButton>
     </form>
   )

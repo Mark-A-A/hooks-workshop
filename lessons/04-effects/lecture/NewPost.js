@@ -17,10 +17,26 @@ export default function NewPost({ takeFocus, date, onSuccess, showAvatar }) {
   const [{ auth }] = useAppState()
   const [message, setMessage] = useState('Ran around the lake.')
   const messageTooLong = message.length > MAX_MESSAGE_LENGTH
+  const messageLengthRef = useRef()
+
 
   function handleMessageChange(event) {
     setMessage(event.target.value)
   }
+
+  //cruise control
+  useEffect(() => {
+
+    //replacement for react life cycles
+    // go way to do set up
+    // If you’re familiar with React class lifecycle methods,
+    // you can think of useEffect Hook as componentDidMount, componentDidUpdate, and componentWillUnmount combined.
+
+    // return () => {
+      const node = messageLengthRef.current
+      node.textContent = message.length
+    // };
+  }, [message])
 
   return (
     <div className={'NewPost' + (messageTooLong ? ` ${errorClass}` : '')}>
@@ -33,7 +49,8 @@ export default function NewPost({ takeFocus, date, onSuccess, showAvatar }) {
           onChange={handleMessageChange}
         />
         <div className="NewPost_char_count">
-          <span>{message.length}</span>/{MAX_MESSAGE_LENGTH}
+          {/* <span>{message.length}</span>/{MAX_MESSAGE_LENGTH} */}
+          <span ref={messageLengthRef}>{message.length}</span>/{MAX_MESSAGE_LENGTH}
         </div>
         <RecentPostsDropdown
           uid={auth.uid}

@@ -20,7 +20,9 @@ const MAX_MESSAGE_LENGTH = 200
 // convention; it doesn't "mean" anything. Let's check out all the places
 // we're passing data down, and getting data back up through events:
 
-export default function NewPost({ takeFocus, date, showAvatar }) {
+
+
+export default function NewPost({ takeFocus, date, showAvatar, onSuccess }) {
   const [{ auth }] = useAppState()
   const [message, setMessage] = useState('')
   const [saving, setSaving] = useState(false)
@@ -48,6 +50,9 @@ export default function NewPost({ takeFocus, date, showAvatar }) {
     }).then(post => {
       setSaving(false)
       setMessage('')
+
+      //Let owner know it was success
+      // onSuccess(post)
     })
   }
 
